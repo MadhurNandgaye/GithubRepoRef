@@ -19,8 +19,10 @@ const ListComponent = () => {
           { id: 5, name: "Async of Item 1", category: "A" },
           { id: 6, name: "Async of Item 2", category: "B" },
           { id: 7, name: "Async of Item 3", category: "A" },
+          { id: 8, name: "Async of Item 4", category: "C" },
+          { id: 9, name: "Async of Item 5", category: "A" },
         ]);
-      }, 3000); // Simulating a 1-second delay
+      }, 2000); // Simulating a 1-second delay
     };
 
     // Call the fetchData function when the component mounts
