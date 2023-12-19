@@ -1,4 +1,4 @@
-```
+```jsx
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 
 const ListComponent = () => {
