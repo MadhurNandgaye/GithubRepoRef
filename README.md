@@ -55,7 +55,7 @@ const ListComponent = () => {
 
       {/* Example of finding an item by ID */}
       <h2>Find Example:</h2>
-      <p>Item with id 6: {specificItem ? specificItem.name : "Not found"}</p>
+      <p>Item with id 6: {specificItem ?`${specification.id} - {specification.name}`: "Not found"}</p>
 
       {/* Example of filtering items based on a condition */}
       <h2>Filter Example:</h2>
