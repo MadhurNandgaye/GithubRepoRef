@@ -195,7 +195,7 @@ Walk through the `ListComponent` step by step, explaining its functionality:
 
 
 ### **Component Initialization and State Setup**:
-You're initializing various states using `useState` to manage the component's behavior.
+1.You're initializing various states using `useState` to manage the component's behavior.
 
 ```javascript
 const [showCategoryA, setShowCategoryA] = useState(false);
@@ -207,7 +207,7 @@ const [showDeepCopied, setShowDeepCopied] = useState(false);
 ```
 
 ### **Data Fetching with `useEffect`**:
-After the component mounts, a delay of 2 seconds simulates asynchronous data fetching. After the delay, the fetched data is set into the `asyncData` state.
+2.After the component mounts, a delay of 2 seconds simulates asynchronous data fetching. After the delay, the fetched data is set into the `asyncData` state.
 
 ```javascript
 useEffect(() => {
@@ -228,14 +228,14 @@ useEffect(() => {
 ```
 
 ### **Deep Copying Data with `useMemo`**:
-You create a deep copy of `asyncData` to ensure immutability.
+3.You create a deep copy of `asyncData` to ensure immutability.
 
 ```javascript
 const deepCopiedData = useMemo(() => [...asyncData], [asyncData]);
 ```
 
 ### **Filtering and Sorting Data with `useMemo`**:
-Based on the current state values, you filter and sort the items in `asyncData` and store them in `filteredItems`.
+4.Based on the current state values, you filter and sort the items in `asyncData` and store them in `filteredItems`.
 
 ```javascript
 const filteredItems = useMemo(() => {
@@ -255,7 +255,7 @@ const filteredItems = useMemo(() => {
 ```
 
 ### **Rendering List Items with `useCallback`**:
-You memoize the function to render list items to optimize performance.
+5.You memoize the function to render list items to optimize performance.
 
 ```javascript
 const renderListItems = useCallback((itemList) => {
@@ -266,7 +266,7 @@ const renderListItems = useCallback((itemList) => {
 ```
 
 ### **Toggling Category A Visibility with `useCallback`**:
-Another memoized function to toggle the visibility of Category A items.
+6.Another memoized function to toggle the visibility of Category A items.
 
 ```javascript
 const toggleCategoryAVisibility = useCallback(() => {
@@ -275,7 +275,7 @@ const toggleCategoryAVisibility = useCallback(() => {
 ```
 
 ### **JSX Rendering**:
-Finally, you render the UI based on the component's state and user interactions. This includes:
+7.Finally, you render the UI based on the component's state and user interactions. This includes:
 - Search input.
 - Dropdowns for category selection and sorting type.
 - A button to toggle deep-copied data.
