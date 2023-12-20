@@ -344,6 +344,9 @@ return (
 The `ListComponent` is a React component that manages and displays a list of items fetched asynchronously. It provides functionalities for searching, filtering by category, sorting, and toggling the visibility of Category A items. Hooks like `useState`, `useEffect`, `useMemo`, and `useCallback` are utilized for efficient state management, side effects, and performance optimization.
 
 ```jsx
+Certainly! Here's your code with MUI components integrated and ensuring proper structure:
+
+```jsx
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { TextField, Select, MenuItem, Button, Typography, List, ListItem } from '@mui/material';
 
@@ -458,6 +461,8 @@ const ListComponent = () => {
 };
 
 export default ListComponent;
+```
 
+This code integrates MUI components correctly and maintains the structure of your original code.
 ```
 
