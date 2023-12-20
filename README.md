@@ -193,14 +193,10 @@ ListComponent
 
 Walk through the `ListComponent` step by step, explaining its functionality:
 
-### Step 1: Initial Setup
+I apologize for the oversight. Let's go through the code again, following the logic you've provided:
 
-```javascript
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
-```
-- Essential React hooks and functions are imported.
-
-### Step 2: Component State Setup
+### 1. **Component Initialization and State Setup**:
+Various states to manage the component's behavior.
 
 ```javascript
 const [showCategoryA, setShowCategoryA] = useState(false);
@@ -210,54 +206,47 @@ const [selectedCategory, setSelectedCategory] = useState('All');
 const [sortType, setSortType] = useState('name');
 const [showDeepCopied, setShowDeepCopied] = useState(false);
 ```
-- Initial states are defined using `useState`:
-  - `showCategoryA` controls the visibility of Category A items.
-  - `asyncData` will store data fetched asynchronously.
-  - `searchTerm` holds the user's search query.
-  - `selectedCategory` stores the user's selected category for filtering.
-  - `sortType` determines the sorting order.
-  - `showDeepCopied` toggles the display of the deep-copied data.
 
-### Step 3: Fetching Data
+### 2. **Data Fetching with `useEffect`**:
+After the component mounts, a delay of 2 seconds is introduced using `setTimeout` to simulate asynchronous data fetching. After the delay, the fetched data is set into the `asyncData` state.
 
 ```javascript
 useEffect(() => {
   const fetchData = async () => {
     setTimeout(() => {
-      setAsyncData([...]);
+      setAsyncData([
+        // ...data
+      ]);
     }, 2000);
   };
+
   fetchData();
 }, []);
 ```
-- Using `useEffect`, data fetching is initiated after the component mounts.
-- Data is fetched after a 2-second delay (simulated using `setTimeout`).
-- Fetched data is stored in the `asyncData` state.
 
-### Step 4: Deep Copying Data
+### 3. **Deep Copying Data with `useMemo`**:
+You're creating a deep copy of `asyncData` to ensure immutability.
 
 ```javascript
 const deepCopiedData = useMemo(() => [...asyncData], [asyncData]);
 ```
-- Using `useMemo`, the `deepCopiedData` variable is created as a deep copy of `asyncData`.
-- This ensures that even if `asyncData` changes, the deep-copied version remains unchanged unless `asyncData` changes.
 
-### Step 5: Filtering and Sorting Data
+### 4. **Filtering and Sorting Data with `useMemo`**:
+Based on the current state values, you're filtering and sorting the items in `asyncData` and storing them in `filteredItems`.
 
 ```javascript
 const filteredItems = useMemo(() => {
   let filtered = asyncData.filter((item) => {
     // Filtering logic based on search term and selected category
   });
+
   // Sorting logic based on sortType
   return filtered;
 }, [asyncData, searchTerm, sortType, selectedCategory]);
 ```
-- Another `useMemo` hook is used to derive `filteredItems` from the `asyncData` state.
-- Items are filtered based on the search term and selected category.
-- The filtered items are then sorted based on the `sortType`.
 
-### Step 6: Rendering List Items
+### 5. **Rendering List Items with `useCallback`**:
+You're memoizing the function to render list items to optimize performance.
 
 ```javascript
 const renderListItems = useCallback((itemList) => {
@@ -266,26 +255,25 @@ const renderListItems = useCallback((itemList) => {
   ));
 }, []);
 ```
-- Using `useCallback`, a memoized function `renderListItems` is defined.
-- This function takes a list of items and renders them as list items.
 
-### Step 7: Toggling Category A Visibility
+### 6. **Toggling Category A Visibility with `useCallback`**:
+Another memoized function to toggle the visibility of Category A items.
 
 ```javascript
 const toggleCategoryAVisibility = useCallback(() => {
   setShowCategoryA(prev => !prev);
 }, []);
 ```
-- Another memoized function is defined to toggle the visibility of Category A items.
 
-### Step 8: JSX Rendering
+### 7. **JSX Rendering**:
+Finally, you're rendering the UI based on the component's state and user interactions. This includes:
+- Search input.
+- Dropdowns for category selection and sorting type.
+- A button to toggle deep-copied data.
+- Lists to display items.
+- Conditional renderings for deep-copied data and Category A items.
 
-- The JSX section contains various UI elements:
-  - A search input for users to input their search queries.
-  - Dropdowns for selecting a category and sorting type.
-  - A button to toggle the display of deep-copied data.
-  - Conditional renderings to display data based on user interactions (e.g., showing deep-copied data or toggling Category A visibility).
-
+The logic provided by you primarily revolves around state management, asynchronous data fetching, data manipulation (filtering and sorting), and rendering the UI accordingly.
 ---
 
 In summary, the `ListComponent` manages a list of items fetched asynchronously. It allows users to search, filter, and sort the items. Additionally, users can view a deep-copied version of the data and toggle the visibility of items belonging to Category A.
