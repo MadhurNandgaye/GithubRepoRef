@@ -342,3 +342,120 @@ return (
 
 ### Conclusion:
 The `ListComponent` is a React component that manages and displays a list of items fetched asynchronously. It provides functionalities for searching, filtering by category, sorting, and toggling the visibility of Category A items. Hooks like `useState`, `useEffect`, `useMemo`, and `useCallback` are utilized for efficient state management, side effects, and performance optimization.
+
+
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import { TextField, Select, MenuItem, Button, Typography, List, ListItem } from '@mui/material';
+
+const ListComponent = () => {
+  
+  const [showCategoryA, setShowCategoryA] = useState(false);
+  const [asyncData, setAsyncData] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('All');
+  const [sortType, setSortType] = useState('name');
+  const [showDeepCopied, setShowDeepCopied] = useState(false);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setTimeout(() => {
+        setAsyncData([
+          { id: 5, name: "Async of Item 1", category: "A" },
+          { id: 6, name: "Async of Item 2", category: "B" },
+          { id: 7, name: "Async of Item 3", category: "A" },
+          { id: 8, name: "Async of Item 4", category: "C" },
+          { id: 9, name: "Async of Item 5", category: "A" },
+        ]);
+      }, 2000);
+    };
+
+    fetchData();
+  }, []);
+
+  const deepCopiedData = useMemo(() => [...asyncData], [asyncData]);
+
+  const filteredItems = useMemo(() => {
+    let filtered = asyncData.filter((item) => {
+      return (item.name.toLowerCase().includes(searchTerm.toLowerCase()) || searchTerm === '') &&
+             (selectedCategory === 'All' || item.category === selectedCategory);
+    });
+
+    if (sortType === 'name') {
+      filtered.sort((a, b) => a.name.localeCompare(b.name));
+    } else if (sortType === 'category') {
+      filtered.sort((a, b) => a.category.localeCompare(b.category));
+    }
+
+    return filtered;
+  }, [asyncData, searchTerm, sortType, selectedCategory]);
+
+  const renderListItems = useCallback((itemList) => {
+    return itemList.map((item) => (
+      <ListItem key={item.id}>
+        {item.name} - {item.category}
+      </ListItem>
+    ));
+  }, []);
+
+  const toggleCategoryAVisibility = useCallback(() => {
+    setShowCategoryA(prev => !prev);
+  }, []);
+
+  return (
+    <div>
+      <Typography variant="h2">List of Items:</Typography>
+
+      <TextField 
+        type="text" 
+        placeholder="Search by name..." 
+        value={searchTerm} 
+        onChange={(e) => setSearchTerm(e.target.value)} 
+      />
+
+      <Select value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)}>
+        <MenuItem value="All">All Categories</MenuItem>
+        <MenuItem value="A">Category A</MenuItem>
+        <MenuItem value="B">Category B</MenuItem>
+        <MenuItem value="C">Category C</MenuItem>
+      </Select>
+
+      <Select value={sortType} onChange={(e) => setSortType(e.target.value)}>
+        <MenuItem value="name">Sort by Name</MenuItem>
+        <MenuItem value="category">Sort by Category</MenuItem>
+      </Select>
+
+      <List>{renderListItems(filteredItems)}</List>
+
+      <Button variant="contained" onClick={() => setShowDeepCopied(prev => !prev)}>
+        Toggle Deep Copied Data
+      </Button>
+
+      {showDeepCopied && (
+        <div>
+          <Typography variant="h2">Deep Copied Data:</Typography>
+          <pre>{JSON.stringify(deepCopiedData, null, 2)}</pre>
+        </div>
+      )}
+
+      <Typography variant="h2">Find Example:</Typography>
+      <Typography>Item with id 6: {filteredItems.find((item) => item.id === 6)?.name ?? "Not found"}</Typography>
+
+      <Typography variant="h2">Filter Example:</Typography>
+      <Button variant="contained" onClick={toggleCategoryAVisibility}>
+        Toggle Category A Visibility
+      </Button>
+      
+      {showCategoryA && (
+        <div>
+          <Typography variant="h2">Category A Items:</Typography>
+          <List>{renderListItems(filteredItems.filter(item => item.category === 'A'))}</List>
+        </div>
+      )}
+
+      <hr />
+    </div>
+  );
+};
+
+export default ListComponent;
+
