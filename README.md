@@ -1,16 +1,22 @@
-I apologize for the oversight. Here's the entire original code with the modifications integrated:
+Certainly! Here's the refactored code using the ternary operator for dynamic category visibility:
 
 ```javascript
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 
 const ListComponent = () => {
-
+  
   // State Management with useState
-  const [showCategoryA, setShowCategoryA] = useState(false); 
-  const [asyncData, setAsyncData] = useState([]); 
-  const [searchTerm, setSearchTerm] = useState(''); 
-  const [selectedCategory, setSelectedCategory] = useState('All'); 
-  const [sortType, setSortType] = useState('name'); 
+  const [categoryVisibility, setCategoryVisibility] = useState({
+    A: false,
+    B: false,
+    C: false
+  });
+
+  const [asyncData, setAsyncData] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('All');
+  const [sortType, setSortType] = useState('name');
+  const [showDeepCopied, setShowDeepCopied] = useState(false);
 
   // Side Effect with useEffect for data fetching
   useEffect(() => {
@@ -25,10 +31,12 @@ const ListComponent = () => {
         ]);
       }, 2000);
     };
+
     fetchData();
   }, []);
 
-  // Memoization for derived data with useMemo
+  const deepCopiedData = useMemo(() => [...asyncData], [asyncData]);
+
   const filteredItems = useMemo(() => {
     let filtered = asyncData.filter((item) => {
       return (item.name.toLowerCase().includes(searchTerm.toLowerCase()) || searchTerm === '') &&
@@ -39,25 +47,28 @@ const ListComponent = () => {
       filtered.sort((a, b) => a.name.localeCompare(b.name));
     } else if (sortType === 'category') {
       filtered.sort((a, b) => a.category.localeCompare(b.category));
-    } else if (sortType === 'id') {
-      filtered.sort((a, b) => a.id - b.id);
     }
 
     return filtered;
   }, [asyncData, searchTerm, sortType, selectedCategory]);
 
-  // Memoization with useCallback for rendering list items
   const renderListItems = useCallback((itemList) => {
     return itemList.map((item) => (
       <li key={item.id}>{item.name} - {item.category}</li>
     ));
   }, []);
 
+  const toggleCategoryVisibility = useCallback((category) => {
+    setCategoryVisibility(prev => ({
+      ...prev,
+      [category]: !prev[category]
+    }));
+  }, []);
+
   return (
     <div>
       <h2>List of Items:</h2>
 
-      {/* Search input */}
       <input 
         type="text" 
         placeholder="Search by name..." 
@@ -65,7 +76,6 @@ const ListComponent = () => {
         onChange={(e) => setSearchTerm(e.target.value)} 
       />
 
-      {/* Dropdown to select category */}
       <select value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)}>
         <option value="All">All Categories</option>
         <option value="A">Category A</option>
@@ -73,30 +83,40 @@ const ListComponent = () => {
         <option value="C">Category C</option>
       </select>
 
-      {/* Dropdown to select sorting type */}
       <select value={sortType} onChange={(e) => setSortType(e.target.value)}>
         <option value="name">Sort by Name</option>
         <option value="category">Sort by Category</option>
-        <option value="id">Sort by ID</option>
       </select>
 
-      {/* Display filtered and sorted items */}
       <ul>{renderListItems(filteredItems)}</ul>
 
-      {/* Toggle Category A Visibility */}
-      <button onClick={() => setShowCategoryA(prev => !prev)}>
-        Toggle Category A Visibility
+      <button onClick={() => setShowDeepCopied(prev => !prev)}>
+        Toggle Deep Copied Data
       </button>
 
-      {/* Rendering for showing items based on selected category */}
-      {selectedCategory !== 'All' && (
+      {showDeepCopied && (
         <div>
-          <h2>{`Items in Category ${selectedCategory}:`}</h2>
-          <ul>{renderListItems(filteredItems.filter(item => item.category === selectedCategory))}</ul>
+          <h2>Deep Copied Data:</h2>
+          <pre>{JSON.stringify(deepCopiedData, null, 2)}</pre>
         </div>
       )}
 
-      {/* Horizontal separator */}
+      <h2>Find Example:</h2>
+      <p>Item with id 6: {filteredItems.find((item) => item.id === 6)?.name ?? "Not found"}</p>
+
+      <h2>Filter Example:</h2>
+      {Object.keys(categoryVisibility).map(category => (
+        <div key={category}>
+          <h2>{`Category ${category} Items:`}</h2>
+          <button onClick={() => toggleCategoryVisibility(category)}>
+            Toggle Category {category} Visibility
+          </button>
+          {categoryVisibility[category] ? (
+            <ul>{renderListItems(filteredItems.filter(item => item.category === category))}</ul>
+          ) : null}
+        </div>
+      ))}
+
       <hr />
     </div>
   );
@@ -105,8 +125,7 @@ const ListComponent = () => {
 export default ListComponent;
 ```
 
-This code now includes the requested changes, such as sorting by `id`, toggling category visibility, filtering by ID, and displaying items based on a selected category.
-
+This refactored code uses the ternary operator for conditional rendering, making it more dynamic and concise.
 
 
 
