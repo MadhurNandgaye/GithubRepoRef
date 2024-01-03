@@ -1,3 +1,69 @@
+
+Certainly! Here's the code with the changes highlighted for clarity:
+
+### Before Changes:
+
+```javascript
+// State Management
+const [showCategoryA, setShowCategoryA] = useState(false); // Toggle for Category A visibility
+
+// ...
+
+// JSX Rendering
+<button onClick={toggleCategoryAVisibility}>
+  Toggle Category A Visibility
+</button>
+
+{showCategoryA && (
+  <div>
+    <h2>Category A Items:</h2>
+    <ul>{renderListItems(filteredItems.filter(item => item.category === 'A'))}</ul>
+  </div>
+)}
+```
+
+### After Changes:
+
+```javascript
+// State Management
+const [categoryVisibility, setCategoryVisibility] = useState({
+  A: false,
+  B: false,
+  C: false
+});
+
+// ...
+
+// Updated Toggle Function
+const toggleCategoryVisibility = useCallback((category) => {
+  setCategoryVisibility(prev => ({
+    ...prev,
+    [category]: !prev[category]
+  }));
+}, []);
+
+// ...
+
+// JSX Rendering
+{Object.keys(categoryVisibility).map(category => (
+  <div key={category}>
+    <h2>{`Category ${category} Items:`}</h2>
+    <button onClick={() => toggleCategoryVisibility(category)}>
+      Toggle Category {category} Visibility
+    </button>
+    {categoryVisibility[category] ? (
+      <ul>{renderListItems(filteredItems.filter(item => item.category === category))}</ul>
+    ) : null}
+  </div>
+))}
+```
+
+The changes made involve transitioning from a singular toggle for Category A to a dynamic approach that handles toggling for all categories (`A`, `B`, and `C`) based on their respective visibility in the `categoryVisibility` state.
+
+
+
+
+
 Certainly! Here's the refactored code using the ternary operator for dynamic category visibility:
 
 ```javascript
