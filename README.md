@@ -1,3 +1,63 @@
+Certainly! Here's a simplified side-by-side comparison of the original code and the modified code:
+
+```diff
+// Original Code
+- // State Management with useState
+- const [showCategoryA, setShowCategoryA] = useState(false); // Toggle for Category A visibility
+
+// Modified Code
++ // State Management with useState
++ const [showCategoryA, setShowCategoryA] = useState(false); // Toggle for Category A visibility
++ const [sortType, setSortType] = useState('name'); // Sorting type (by name or category)
+
+...
+
+// Original Code
+- const toggleCategoryAVisibility = () => {
+-   setShowCategoryA(!showCategoryA);
+- };
+
+// Modified Code
++ // Memoization with useCallback for toggling visibility
++ const toggleCategoryAVisibility = useCallback(() => {
++   setShowCategoryA(prev => !prev);
++ }, []);
+
+...
+
+// Original Code
+- <h2>Find Example:</h2>
+- <p>Item with id 6: {filteredItems.find((item) => item.id === 6)?.name ?? "Not found"}</p>
+
+// Modified Code
++ <h2>Find Example:</h2>
++ <p>Item with id 6: {filteredItems.find((item) => item.id === 6)?.name ?? "Not found"}</p>
+
+...
+
+// Original Code
+- {/* Conditional rendering for Category A */}
+- {showCategoryA && (
+-   <div>
+-     <h2>Category A Items:</h2>
+-     <ul>{renderListItems(filteredItems.filter(item => item.category === 'A'))}</ul>
+-   </div>
+- )}
+
+// Modified Code
++ {/* Conditional rendering for Category A */}
++ {showCategoryA && (
++   <div>
++     <h2>Category A Items:</h2>
++     <ul>{renderListItems(filteredItems.filter(item => item.category === 'A'))}</ul>
++   </div>
++ )}
+```
+
+The `diff` format shows the lines removed from the original code with a `-` prefix and the lines added to the modified code with a `+` prefix. This gives a clear visual representation of the changes made.
+
+
+
 Certainly! Here are the changes made to the original code along with explanations:
 
 ### 1. `useEffect` for Logging `selectedCategory`
