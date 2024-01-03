@@ -1,4 +1,4 @@
-Certainly! Here's the complete `ListComponent` with the changes integrated:
+I apologize for the confusion. Here's the complete `ListComponent` with all your original code and the changes integrated:
 
 ```jsx
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
@@ -71,7 +71,43 @@ const ListComponent = () => {
       {/* JSX rendering with React components and state */}
       <h2>List of Items:</h2>
 
-      {/* ... [rest of the JSX remains unchanged] */}
+      {/* Search input */}
+      <input 
+        type="text" 
+        placeholder="Search by name..." 
+        value={searchTerm} 
+        onChange={(e) => setSearchTerm(e.target.value)} 
+      />
+
+      {/* Dropdown to select category */}
+      <select value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)}>
+        <option value="All">All Categories</option>
+        <option value="A">Category A</option>
+        <option value="B">Category B</option>
+        <option value="C">Category C</option>
+      </select>
+
+      {/* Dropdown to select sorting type */}
+      <select value={sortType} onChange={(e) => setSortType(e.target.value)}>
+        <option value="name">Sort by Name</option>
+        <option value="category">Sort by Category</option>
+      </select>
+
+      {/* Display filtered and sorted items */}
+      <ul>{renderListItems(filteredItems)}</ul>
+
+      {/* Button to toggle deep copied data */}
+      <button onClick={() => setShowDeepCopied(prev => !prev)}>
+        Toggle Deep Copied Data
+      </button>
+
+      {/* Conditional rendering with React components */}
+      {showDeepCopied && (
+        <div>
+          <h2>Deep Copied Data:</h2>
+          <pre>{JSON.stringify(deepCopiedData, null, 2)}</pre>
+        </div>
+      )}
 
       {/* Find Example */}
       <h2>Find Example:</h2>
@@ -100,93 +136,7 @@ const ListComponent = () => {
 export default ListComponent;
 ```
 
-In this complete code, the changes include:
-- Added a `useEffect` to log changes in `selectedCategory`.
-- Modified `toggleCategoryAVisibility` to toggle the value of `showCategoryA`.
-- Default sorting type set to "name".
-- Modified the find example for safer code using optional chaining and nullish coalescing.
-
-
-
-
-
-
-Certainly! Here are some changes made to the provided code, along with explanations:
-
-1. **Added a `useEffect` to listen for changes to `selectedCategory`**:
-   This effect logs the selected category whenever it changes.
-
-2. **Modified the `toggleCategoryAVisibility` function**:
-   Changed the logic to toggle the visibility of Category A based on the current value of `showCategoryA`.
-
-3. **Changed the default sorting type to "name"**:
-   By default, items will be sorted by name.
-
-4. **Modified the find example**:
-   Used optional chaining and nullish coalescing for safer code.
-
-Here's the updated code:
-
-```jsx
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
-
-const ListComponent = () => {
-  
-  // ... [rest of the state variables remain unchanged]
-
-  // Side Effect to log changes in selectedCategory
-  useEffect(() => {
-    console.log(`Selected Category changed to: ${selectedCategory}`);
-  }, [selectedCategory]);
-
-  // Memoization with useCallback for toggling visibility
-  const toggleCategoryAVisibility = useCallback(() => {
-    setShowCategoryA(prev => !prev);
-  }, []);
-
-  // ... [rest of the code remains unchanged]
-
-  return (
-    <div>
-      {/* JSX rendering with React components and state */}
-      <h2>List of Items:</h2>
-
-      {/* ... [rest of the JSX remains unchanged] */}
-
-      {/* Find Example */}
-      <h2>Find Example:</h2>
-      <p>Item with id 6: {filteredItems.find((item) => item.id === 6)?.name ?? "Not found"}</p>
-
-      {/* Filter Example */}
-      <h2>Filter Example:</h2>
-      <button onClick={toggleCategoryAVisibility}>
-        Toggle Category A Visibility
-      </button>
-      
-      {/* Conditional rendering for Category A */}
-      {showCategoryA && (
-        <div>
-          <h2>Category A Items:</h2>
-          <ul>{renderListItems(filteredItems.filter(item => item.category === 'A'))}</ul>
-        </div>
-      )}
-
-      {/* Horizontal separator */}
-      <hr />
-    </div>
-  );
-};
-
-export default ListComponent;
-```
-
-Changes Made:
-- Added `useEffect` to log changes in `selectedCategory`.
-- Modified `toggleCategoryAVisibility` to toggle the value of `showCategoryA`.
-- Default sorting type set to "name".
-- Modified the find example for safer code using optional chaining and nullish coalescing.
-
-
+This code now includes all the original functionalities along with the changes made.
 
 
 Project Code
