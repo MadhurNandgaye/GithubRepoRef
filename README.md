@@ -1,3 +1,82 @@
+
+Certainly! Here are some changes made to the provided code, along with explanations:
+
+1. **Added a `useEffect` to listen for changes to `selectedCategory`**:
+   This effect logs the selected category whenever it changes.
+
+2. **Modified the `toggleCategoryAVisibility` function**:
+   Changed the logic to toggle the visibility of Category A based on the current value of `showCategoryA`.
+
+3. **Changed the default sorting type to "name"**:
+   By default, items will be sorted by name.
+
+4. **Modified the find example**:
+   Used optional chaining and nullish coalescing for safer code.
+
+Here's the updated code:
+
+```jsx
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
+
+const ListComponent = () => {
+  
+  // ... [rest of the state variables remain unchanged]
+
+  // Side Effect to log changes in selectedCategory
+  useEffect(() => {
+    console.log(`Selected Category changed to: ${selectedCategory}`);
+  }, [selectedCategory]);
+
+  // Memoization with useCallback for toggling visibility
+  const toggleCategoryAVisibility = useCallback(() => {
+    setShowCategoryA(prev => !prev);
+  }, []);
+
+  // ... [rest of the code remains unchanged]
+
+  return (
+    <div>
+      {/* JSX rendering with React components and state */}
+      <h2>List of Items:</h2>
+
+      {/* ... [rest of the JSX remains unchanged] */}
+
+      {/* Find Example */}
+      <h2>Find Example:</h2>
+      <p>Item with id 6: {filteredItems.find((item) => item.id === 6)?.name ?? "Not found"}</p>
+
+      {/* Filter Example */}
+      <h2>Filter Example:</h2>
+      <button onClick={toggleCategoryAVisibility}>
+        Toggle Category A Visibility
+      </button>
+      
+      {/* Conditional rendering for Category A */}
+      {showCategoryA && (
+        <div>
+          <h2>Category A Items:</h2>
+          <ul>{renderListItems(filteredItems.filter(item => item.category === 'A'))}</ul>
+        </div>
+      )}
+
+      {/* Horizontal separator */}
+      <hr />
+    </div>
+  );
+};
+
+export default ListComponent;
+```
+
+Changes Made:
+- Added `useEffect` to log changes in `selectedCategory`.
+- Modified `toggleCategoryAVisibility` to toggle the value of `showCategoryA`.
+- Default sorting type set to "name".
+- Modified the find example for safer code using optional chaining and nullish coalescing.
+
+
+
+
 Project Code
 ```jsx
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
