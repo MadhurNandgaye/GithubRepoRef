@@ -1,4 +1,4 @@
-Certainly! Here's the complete modified code:
+I apologize for the oversight. Here's the entire original code with the modifications integrated:
 
 ```javascript
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
@@ -6,11 +6,11 @@ import React, { useState, useEffect, useCallback, useMemo } from 'react';
 const ListComponent = () => {
 
   // State Management with useState
-  const [showCategoryA, setShowCategoryA] = useState(false);
-  const [asyncData, setAsyncData] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('All');
-  const [sortType, setSortType] = useState('name');
+  const [showCategoryA, setShowCategoryA] = useState(false); 
+  const [asyncData, setAsyncData] = useState([]); 
+  const [searchTerm, setSearchTerm] = useState(''); 
+  const [selectedCategory, setSelectedCategory] = useState('All'); 
+  const [sortType, setSortType] = useState('name'); 
 
   // Side Effect with useEffect for data fetching
   useEffect(() => {
@@ -105,12 +105,11 @@ const ListComponent = () => {
 export default ListComponent;
 ```
 
-This complete code incorporates the requested modifications:
+This code now includes the requested changes, such as sorting by `id`, toggling category visibility, filtering by ID, and displaying items based on a selected category.
 
-- The sorting type dropdown now includes an option to sort by `id`.
-- The toggle button allows switching between showing items from Category A and all other items.
-- An input field is available to filter items based on their IDs.
-- Items can be displayed based on a selected category from a dropdown menu.
+
+
+
 Project Code
 ```jsx
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
