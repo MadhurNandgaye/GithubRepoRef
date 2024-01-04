@@ -1,3 +1,53 @@
+Upon examining the `AuthContext.tsx` file, I noticed that the `AuthProvider` component is wrapping the `children` with the `AuthContext.Provider`, but the `Login` and `SignUp` components are not consuming the context to access the `login` and `signUp` functions.
+
+To fix this issue, you need to wrap the `Login` and `SignUp` components with the `AuthContext.Consumer` or use the `useContext` hook to access the context values.
+
+Here's a corrected version of the `App.tsx` file to demonstrate how to use the `useContext` hook with `Login` and `SignUp` components:
+
+```tsx
+// src/App.tsx
+
+import React, { useState, useContext } from 'react';
+import Login from './components/Login';
+import SignUp from './components/SignUp';
+import CommentsList from './components/CommentsList';
+import { AuthProvider, AuthContext } from './context/AuthContext';  // Import AuthContext
+
+const App: React.FC = () => {
+  const [comments, setComments] = useState<{ id: number; text: string; user: string }[]>([
+    { id: 1, text: 'Sample comment', user: 'user1' },
+  ]);
+
+  const addComment = (comment: { id: number; text: string; user: string }) => {
+    setComments([...comments, comment]);
+  };
+
+  const authContext = useContext(AuthContext);  // Use useContext hook to access AuthContext
+
+  return (
+    <AuthProvider>
+      <div className="App">
+        <h1>Comments Section</h1>
+        <Login onLogin={authContext?.login} />  {/* Pass login function as prop */}
+        <SignUp onSignUp={authContext?.signUp} />  {/* Pass signUp function as prop */}
+        <CommentsList comments={comments} />
+      </div>
+    </AuthProvider>
+  );
+}
+
+export default App;
+```
+
+In the `Login` and `SignUp` components, you can now access the `onLogin` and `onSignUp` functions via props and call them accordingly.
+
+
+
+
+
+
+
+
 Certainly! Below is a step-by-step guide to set up a new React project with TypeScript:
 
 ### **1. Initialize a New React TypeScript Project**:
