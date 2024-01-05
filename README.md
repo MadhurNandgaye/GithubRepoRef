@@ -1,3 +1,64 @@
+Alright, I understand. Let's make some adjustments to the code by removing the `useHistory` hook and the `Redirect` component from the routing.
+
+### Updated `src/App.tsx`:
+```tsx
+import React from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import store from './store/store';
+import Login from './Login';
+import CommentSection from './CommentSection';
+
+const App: React.FC = () => {
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+
+  return (
+    <Router>
+      <Switch>
+        <Route path="/login" component={Login} />
+        {!isAuthenticated && <Route path="/comments" component={Login} />}
+        {isAuthenticated && <Route path="/comments" component={CommentSection} />}
+      </Switch>
+    </Router>
+  );
+};
+
+export default App;
+```
+
+In this updated `App.tsx`, if the user is not authenticated, they will be redirected to the `Login` component when trying to access the `/comments` route. Once authenticated, they will see the `CommentSection`.
+
+Now, let's update the `Login.tsx` to handle the navigation without using `useHistory`.
+
+### Updated `src/Login.tsx`:
+```tsx
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { login } from './store/authSlice';
+
+const Login: React.FC = () => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const dispatch = useDispatch();
+
+  const handleLogin = () => {
+    // Authenticate user (simplified)
+    dispatch(login(username));
+    window.location.href = '/comments'; // Navigate to the comments page
+  };
+
+  return (
+    // ...
+  );
+};
+
+export default Login;
+```
+
+Now, upon successful login, the user will be redirected to the `/comments` route without using `useHistory`.
+
+
+
 Certainly, here's the simplified file structure for the React TypeScript project:
 
 ```
