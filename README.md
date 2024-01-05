@@ -33,7 +33,19 @@ comment-app/
 
 This structure organizes the project files into logical directories and separates the source code, static files, and configuration files.
 
+To install the necessary dependencies and toolkit for the project, you can run the following commands in your project directory:
 
+1. **React and TypeScript Dependencies**:
+```bash
+npm install react react-dom react-router-dom redux react-redux typescript @types/react @types/react-dom @types/react-router-dom
+```
+
+2. **Redux Toolkit**:
+```bash
+npm install @reduxjs/toolkit
+```
+
+After running these commands, your `package.json` file will be updated with the installed packages, and you can start building your React TypeScript application with Redux Toolkit.
 
 
 Adding the remaining features involves creating Redux slices for authentication and comments, implementing user authentication, and managing comments. Below are the additional files and features you'll need to complete the application:
