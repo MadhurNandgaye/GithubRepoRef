@@ -1,3 +1,52 @@
+Alright, I'll adjust the `CommentSection` component to receive comments as a prop instead of accessing the Redux state directly.
+
+### 3. `src/CommentSection.tsx`:
+```tsx
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { addComment } from './store/commentSlice';
+
+interface CommentSectionProps {
+  comments: string[];
+  setComments: React.Dispatch<React.SetStateAction<string[]>>;
+}
+
+const CommentSection: React.FC<CommentSectionProps> = ({ comments, setComments }) => {
+  const [newComment, setNewComment] = useState('');
+  const dispatch = useDispatch();
+
+  const handleAddComment = () => {
+    dispatch(addComment(newComment));
+    setComments([...comments, newComment]);
+    setNewComment('');
+  };
+
+  return (
+    <div>
+      <textarea
+        value={newComment}
+        onChange={(e) => setNewComment(e.target.value)}
+        placeholder="Enter your comment"
+      ></textarea>
+      <button onClick={handleAddComment}>Add Comment</button>
+
+      <div>
+        {comments.map((comment, index) => (
+          <p key={index}>{comment}</p>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default CommentSection;
+```
+
+With this change, the `CommentSection` component now receives the comments as a prop and updates them through a setter function.
+
+
+
+
 Alright, I'll make the necessary adjustments. I'll remove the usage of `useSelector` for authentication status in `App.tsx` and will pass it as a prop to the `Login` component.
 
 ### 1. `src/App.tsx`:
