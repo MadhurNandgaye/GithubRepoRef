@@ -1,3 +1,34 @@
+Alright, let's use a different approach. We can utilize the `children` prop of the `Route` component to conditionally render content.
+
+### 1. Adjust the `App.tsx` file:
+
+```tsx
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import Login from './Login';
+import CommentSection from './CommentSection';
+
+const App: React.FC = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  return (
+    <Router>
+      <Route path="/login" component={() => <Login setIsAuthenticated={setIsAuthenticated} />} />
+      <Route path="/comments">
+        {isAuthenticated ? <CommentSection /> : <Login setIsAuthenticated={setIsAuthenticated} />}
+      </Route>
+    </Router>
+  );
+};
+
+export default App;
+```
+
+Here, instead of using the `render` prop, we conditionally render either the `CommentSection` or the `Login` component based on the `isAuthenticated` state using the `children` prop.
+
+
+
+
 Certainly, here's the revised `App.tsx` code with the appropriate `render` prop:
 
 ### `src/App.tsx`:
