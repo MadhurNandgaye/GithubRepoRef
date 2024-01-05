@@ -1,3 +1,35 @@
+Certainly, here's the revised `App.tsx` code with the appropriate `render` prop:
+
+### `src/App.tsx`:
+
+```tsx
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import Login from './Login';
+import CommentSection from './CommentSection';
+
+const App: React.FC = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  return (
+    <Router>
+      <Route path="/login" render={() => <Login setIsAuthenticated={setIsAuthenticated} />} />
+      {!isAuthenticated ? (
+        <Route path="/comments" render={() => <Login setIsAuthenticated={setIsAuthenticated} />} />
+      ) : (
+        <Route path="/comments" component={CommentSection} />
+      )}
+    </Router>
+  );
+};
+
+export default App;
+```
+
+This code uses the `render` prop for conditional rendering of components based on the authentication status.
+
+
+
 Alright, I'll adjust the `CommentSection` component to receive comments as a prop instead of accessing the Redux state directly.
 
 ### 3. `src/CommentSection.tsx`:
