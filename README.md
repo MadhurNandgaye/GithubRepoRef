@@ -1,3 +1,78 @@
+Alright, I'll make the necessary adjustments. I'll remove the usage of `useSelector` for authentication status in `App.tsx` and will pass it as a prop to the `Login` component.
+
+### 1. `src/App.tsx`:
+```tsx
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import Login from './Login';
+import CommentSection from './CommentSection';
+
+const App: React.FC = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  return (
+    <Router>
+      <Route path="/login" render={() => <Login setIsAuthenticated={setIsAuthenticated} />} />
+      {!isAuthenticated ? (
+        <Route path="/comments" render={() => <Login setIsAuthenticated={setIsAuthenticated} />} />
+      ) : (
+        <Route path="/comments" component={CommentSection} />
+      )}
+    </Router>
+  );
+};
+
+export default App;
+```
+
+### 2. `src/Login.tsx`:
+```tsx
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { login } from './store/authSlice';
+
+interface LoginProps {
+  setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const Login: React.FC<LoginProps> = ({ setIsAuthenticated }) => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const dispatch = useDispatch();
+
+  const handleLogin = () => {
+    // For simplicity, I'm not checking the password here. You might want to add that.
+    dispatch(login(username));
+    setIsAuthenticated(true);
+    window.location.href = '/comments'; // Navigate to the comments page
+  };
+
+  return (
+    <div>
+      <input
+        type="text"
+        placeholder="Username"
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
+      />
+      <input
+        type="password"
+        placeholder="Password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+      />
+      <button onClick={handleLogin}>Login</button>
+    </div>
+  );
+};
+
+export default Login;
+```
+
+With these modifications, the authentication status is managed in the `App` component state, and it's passed down to the `Login` component as a prop.
+
+
+
 
 Alright, I'll integrate the logic into the components:
 
