@@ -1,4 +1,5 @@
-Certainly. Here's the implemented code based on the logic and components you provided:
+
+Alright, I'll integrate the logic into the components:
 
 ### 1. `src/App.tsx`:
 ```tsx
@@ -14,8 +15,11 @@ const App: React.FC = () => {
   return (
     <Router>
       <Route path="/login" component={Login} />
-      {!isAuthenticated && <Route path="/comments" component={Login} />}
-      {isAuthenticated && <Route path="/comments" component={CommentSection} />}
+      {!isAuthenticated ? (
+        <Route path="/comments" component={Login} />
+      ) : (
+        <Route path="/comments" component={CommentSection} />
+      )}
     </Router>
   );
 };
@@ -35,12 +39,27 @@ const Login: React.FC = () => {
   const dispatch = useDispatch();
 
   const handleLogin = () => {
+    // For simplicity, I'm not checking the password here. You might want to add that.
     dispatch(login(username));
     window.location.href = '/comments'; // Navigate to the comments page
   };
 
   return (
-    // Your login form and logic here
+    <div>
+      <input
+        type="text"
+        placeholder="Username"
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
+      />
+      <input
+        type="password"
+        placeholder="Password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+      />
+      <button onClick={handleLogin}>Login</button>
+    </div>
   );
 };
 
@@ -64,96 +83,29 @@ const CommentSection: React.FC = () => {
   };
 
   return (
-    // Your comment section UI and logic here
+    <div>
+      <textarea
+        value={newComment}
+        onChange={(e) => setNewComment(e.target.value)}
+        placeholder="Enter your comment"
+      ></textarea>
+      <button onClick={handleAddComment}>Add Comment</button>
+
+      <div>
+        {comments.map((comment, index) => (
+          <p key={index}>{comment}</p>
+        ))}
+      </div>
+    </div>
   );
 };
 
 export default CommentSection;
 ```
 
-This is the implemented code based on the logic you provided.
+With this implementation, users can navigate between the `Login` and `CommentSection` components based on their authentication status. The `Login` component allows users to input a username (without password verification for simplicity), and the `CommentSection` component lets authenticated users add comments.
 
 
-
-
-
-
-Alright, I'll adjust the code accordingly without using `Switch` or `useHistory`. 
-
-### 1. `src/App.tsx`:
-```tsx
-import React from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import store from './store/store';
-import Login from './Login';
-import CommentSection from './CommentSection';
-
-const App: React.FC = () => {
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-
-  return (
-    <Router>
-      <Route path="/login" component={Login} />
-      {!isAuthenticated && <Route path="/comments" component={Login} />}
-      {isAuthenticated && <Route path="/comments" component={CommentSection} />}
-    </Router>
-  );
-};
-
-export default App;
-```
-
-### 2. `src/Login.tsx`:
-```tsx
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { login } from './store/authSlice';
-
-const Login: React.FC = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const dispatch = useDispatch();
-
-  const handleLogin = () => {
-    // Authenticate user (simplified)
-    dispatch(login(username));
-    window.location.href = '/comments'; // Navigate to the comments page
-  };
-
-  return (
-    // Your login form and logic here
-  );
-};
-
-export default Login;
-```
-
-### 3. `src/CommentSection.tsx`:
-```tsx
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { addComment } from './store/commentSlice';
-
-const CommentSection: React.FC = () => {
-  const [newComment, setNewComment] = useState('');
-  const comments = useSelector((state) => state.comment.comments);
-  const dispatch = useDispatch();
-
-  const handleAddComment = () => {
-    dispatch(addComment(newComment));
-    setNewComment('');
-  };
-
-  return (
-    // Your comment section UI and logic here
-  );
-};
-
-export default CommentSection;
-```
-
-This code ensures the user's route is based on authentication status without using `Switch` or `useHistory`.
 
 
 
