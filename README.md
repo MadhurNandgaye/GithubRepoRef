@@ -1,6 +1,6 @@
 Certainly! If you want to uncheck the other radio button when one is clicked, you can handle this behavior by maintaining the selected state for the radio buttons. Here's an example:
 
-jsx
+```jsx
 import React, { useState } from 'react';
 import Checkbox from '@mui/material/Checkbox';
 import Typography from '@mui/material/Typography';
@@ -45,7 +45,7 @@ const YourComponent = () => {
 };
 
 export default YourComponent;
-
+```
 
 In this example, the state isChecked is used to manage the checked state of the Checkbox. The handleCheckboxClick function toggles this state. Additionally, the handleRadioClick function is added to uncheck the Checkbox when a radio button is clicked. Adjust the code based on your specific requirements and styling.
 
